@@ -15,11 +15,10 @@ PRODUCT_CHARACTERISTICS := automotive,nosdcard
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
-# Boot animation. Must stay above the car.mk inherit: for duplicate
-# PRODUCT_COPY_FILES destinations the first entry wins, and car_product
-# installs its own bootanimation-832.zip to the same path.
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/car/bootanimation.zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation.zip
+# Hardware-independent car customisations (boot animation, ...), shared with
+# the rpi5_car_emu_x86_64 emulator test product. Must stay above the car.mk
+# inherit: for duplicate PRODUCT_COPY_FILES destinations the first entry wins.
+$(call inherit-product, $(DEVICE_PATH)/car/car_common.mk)
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 $(call enforce-product-packages-exist,Bluetooth Keyguard Launcher2 OverviewApp RotaryIME RotaryPlayground libnfc_ndef libvariablespeed pppd)
